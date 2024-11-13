@@ -14,6 +14,9 @@ inputs:
   device-id:
     description: 'Device ID'
     required: true
+  device-os:
+    description: 'Device OS'
+    required: true
   os-version-id:
     description: 'OS Versions ID'
     required: true
@@ -50,6 +53,7 @@ runs:
     - ${{ inputs.type }}
     - ${{ inputs.num-flaky-test-attempts }}
     - ${{ inputs.timeout }}
+    - ${{ inputs.device-os }}
   env:
     SERVICE_ACCOUNT: ${{ inputs.service-account }}
 branding:
