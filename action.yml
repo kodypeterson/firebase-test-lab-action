@@ -7,9 +7,9 @@ inputs:
     required: true
   app:
     description: 'Path to apk'
-    required: true
+    required: false
   test:
-    description: 'Path to instrument APK'
+    description: 'Path to instrument Test'
     required: true
   device-id:
     description: 'Device ID'
