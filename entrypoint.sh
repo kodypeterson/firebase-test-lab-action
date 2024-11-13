@@ -17,6 +17,7 @@ locale=$6
 type=$7
 numflakytestattempts=$8
 timeout=$9
+deviceos=$10
 
 service_account_file=/opt/service_account.json
 echo "$SERVICE_ACCOUNT" > $service_account_file
@@ -25,12 +26,22 @@ project_id=$(cat $service_account_file | jq -r ".project_id")
 gcloud auth activate-service-account --key-file=$service_account_file
 gcloud config set project $project_id
 
-if gcloud firebase test android run --app=$app --test=$test --type=$type --use-orchestrator --device=model=$deviceid,version=$osversionid,locale=$locale,orientation=$orientation --timeout=$timeout --environment-variables clearPackageData=true
-then
-    echo "Test execution successfully finished"
+if [ "$variable" = "android" ]; then
+  if gcloud firebase test android run --app=$app --test=$test --type=$type --use-orchestrator --device=model=$deviceid,version=$osversionid,locale=$locale,orientation=$orientation --timeout=$timeout --environment-variables clearPackageData=true
+  then
+      echo "Test execution successfully finished"
+  else
+      status=$?
+      echo "Test execution exited with non-zero exit code: " $status
+  fi
 else
-    status=$?
-    echo "Test execution exited with non-zero exit code: " $status
+  if gcloud firebase test ios run --test=$test --device=model=$deviceid,version=$osversionid,locale=$locale,orientation=$orientation
+  then
+      echo "Test execution successfully finished"
+  else
+      status=$?
+      echo "Test execution exited with non-zero exit code: " $status
+  fi
 fi
 
 rm $service_account_file
