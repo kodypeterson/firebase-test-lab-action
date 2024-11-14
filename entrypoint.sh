@@ -17,7 +17,7 @@ locale=$6
 type=$7
 numflakytestattempts=$8
 timeout=$9
-deviceos=$10
+deviceos=${10}
 
 service_account_file=/opt/service_account.json
 echo "$SERVICE_ACCOUNT" > $service_account_file
