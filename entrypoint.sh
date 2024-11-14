@@ -26,7 +26,7 @@ project_id=$(cat $service_account_file | jq -r ".project_id")
 gcloud auth activate-service-account --key-file=$service_account_file
 gcloud config set project $project_id
 
-if [ "$variable" = "android" ]; then
+if [ "$deviceos" = "android" ]; then
   if gcloud firebase test android run --app=$app --test=$test --type=$type --use-orchestrator --device=model=$deviceid,version=$osversionid,locale=$locale,orientation=$orientation --timeout=$timeout --environment-variables clearPackageData=true
   then
       echo "Test execution successfully finished"
